@@ -1,3 +1,3 @@
 #!/bin/bash
 echo "Starting training pipeline..."
-python -m src.training.pipeline
+python pipelines/training_pipeline.py
