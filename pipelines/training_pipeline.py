@@ -4,7 +4,6 @@ from pathlib import Path
 # Add current directory to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from src.data.data_loader import DataLoader
 # ... rest of imports
 
 from src.data.data_loader import DataLoader
@@ -12,7 +11,9 @@ from src.data.data_preprocessor import DataPreprocessor
 from src.models.model_builder import ModelBuilder
 from src.training.trainer import ModelTrainer
 from src.mlflow_pipeline.tracking import MLflowTracker
+from src.utils.config import config 
 import tensorflow as tf
+
 
 def main():
     """Main training pipeline"""
@@ -28,6 +29,9 @@ def main():
     # Step 1: Load data
     print("\n Step 1: Loading data...")
     (x_train, y_train), (x_test, y_test) = data_loader.load_data()
+    
+   
+
     
     # Step 2: Preprocess data
     print("\n Step 2: Preprocessing data...")
@@ -71,7 +75,7 @@ def main():
     
     # Step 6: Train model with MLflow tracking
     print("\n Step 6: Training model...")
-    history = trainer.train_model(model, train_dataset, val_dataset, epochs=10)
+    history = trainer.train_model(model, train_dataset, val_dataset, epochs=2)
     
     # Step 7: Evaluate model
     print("\n Step 7: Evaluating model...")
@@ -80,7 +84,40 @@ def main():
     print(f"\nTraining pipeline completed!")
     print(f"Final Test Accuracy: {test_accuracy:.4f}")
     
+    
+    
+
+    # Step 8: Save model
+    print("\n Step 8: Saving model...")
+    
+    # Save to models/trained/
+    models_dir = config.model_paths['trained']
+    models_dir.mkdir(exist_ok=True)
+    
+    model_path = models_dir / 'mnist_cnn_model.keras'
+    model.save(model_path)
+    print(f"Model saved to: {model_path}")
+    
+    # Also save to models/deployed/ for API
+    deployed_dir = config.model_paths['deployed']
+    deployed_dir.mkdir(exist_ok=True)
+    
+    deployed_path = deployed_dir / 'mnist_cnn_model.keras'
+    model.save(deployed_path)
+    print(f"Model saved to deployed folder: {deployed_path}")
+
+    print(f"\nTraining pipeline completed!")
+    print(f"Final Test Accuracy: {test_accuracy:.4f}")
+    print(f"Models saved to: {models_dir} and {deployed_dir}")
+    
     return model, history, test_accuracy
+
+
+
+
+
+
+
 
 if __name__ == "__main__":
     model, history, test_accuracy = main()
