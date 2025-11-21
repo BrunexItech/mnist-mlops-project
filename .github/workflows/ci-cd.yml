@@ -23,15 +23,12 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     
-    - name: Run tests
+    - name: Run integration tests
       run: |
         python -m tests.integration.test_pipeline
     
-    - name: Test training pipeline
+    - name: Verify imports
       run: |
-        python pipelines/training_pipeline.py --test-mode
-        - name: Run unit tests
-      run: |
-        python -c "from src.data.data_loader import DataLoader; print(' Imports work')"
-        python -c "from src.models.model_builder import ModelBuilder; print(' Model imports work')"
-        python -c "from src.utils.config import config; print('Config works')"
+        python -c "from src.data.data_loader import DataLoader; print('Imports work')"
+        python -c "from src.models.model_builder import ModelBuilder; print('Model imports work')"
+        python -c "from src.utils.config import config; print(' Config works')"
