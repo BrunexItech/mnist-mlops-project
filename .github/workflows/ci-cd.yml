@@ -30,3 +30,8 @@ jobs:
     - name: Test training pipeline
       run: |
         python pipelines/training_pipeline.py --test-mode
+        - name: Run unit tests
+      run: |
+        python -c "from src.data.data_loader import DataLoader; print(' Imports work')"
+        python -c "from src.models.model_builder import ModelBuilder; print(' Model imports work')"
+        python -c "from src.utils.config import config; print('Config works')"

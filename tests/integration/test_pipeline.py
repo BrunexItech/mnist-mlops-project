@@ -3,7 +3,7 @@ import os
 from pathlib import Path
 
 # Add src to path
-sys.path.append(str(Path(__file__).parent.parent.parent / 'src'))
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 def test_data_loader():
     """Test data loader component"""

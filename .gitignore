@@ -33,7 +33,7 @@ env/
 *.swo
 
 # Data
-data/raw/
+#data/raw/
 data/processed/
 data/features/
 *.csv
